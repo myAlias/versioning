@@ -1,0 +1,13 @@
+# Copyright 2024 Schneider-Electric
+name: Create Release
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "package*.json"
+jobs:
+  publish:
+    uses: myAlias/versioning/reference-workflows/ui-release.yml@v0
