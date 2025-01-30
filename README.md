@@ -1,2 +1,2 @@
 # versioning
-Test semantic-release
+Test semantic-release 1
