@@ -24,12 +24,12 @@ jobs:
         with: 
           fetch-depth: 0
 
-      - uses: myAlias/versioning/reference-workflows/actions/npm-install@v0
+      - uses: myAlias/versioning/.github/actions/npm-install@v0
         with:
           node-version: ${{ inputs.node-version }}
           working-directory: ${{ inputs.library-root }}
      
-      - uses: myAlias/versioning/reference-workflows/actions/npm-semantic-release@v0
+      - uses: myAlias/versioning/.github/actions/npm-semantic-release@v0
         with:          
           library-root: ${{ inputs.library-root }}
         env:
