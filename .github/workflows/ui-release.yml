@@ -15,7 +15,7 @@ on:
         default: ${{ github.workspace }}
 jobs:
   version:
-    runs-on: linux
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash

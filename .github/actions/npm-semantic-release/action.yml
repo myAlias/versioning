@@ -14,7 +14,7 @@ runs:
     run: npm install semantic-release
     working-directory: ${{ inputs.library-root }}
 
-  - name: Run semantic-release
+  - name: Run semantic-release --debug
     shell: bash
     run: npx semantic-release
     working-directory: ${{ inputs.library-root }}
