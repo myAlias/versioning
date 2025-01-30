@@ -1,0 +1,41 @@
+# Copyright 2024 Schneider-Electric
+# Reference: https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/caching-dependencies-to-speed-up-workflows
+name: "Setup Node.js and npm Cache"
+description: "Set up Node.js environment and use cache to save or retrieve npm dependencies"
+inputs:
+  node-version:
+    description: "Node.js version to use"
+    default: "20"
+  node-env:
+    description: "Set to 'development' to install devDependencies. Default is 'production'"
+    required: false
+    default: "production"
+  working-directory:
+    description: "Path to the package.json file. Default is the root directory"
+    required: false
+    default: "${{ github.workspace }}"
+  jfrog-registry:
+    description: JFrog Artifactory repository. Default is 'em-esxp-npm-dev-fed'
+    required: false
+    default: "em-esxp-npm-dev-fed"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v4.0.3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+        cache-dependency-path: ${{ inputs.working-directory}}
+
+    - name: Configure npmrc
+      shell: bash
+      run: jf npm-config --repo-resolve=${{inputs.jfrog-registry}}
+      working-directory: ${{ inputs.working-directory }}
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        export NODE_ENV=${{ inputs.node-env }}
+        jf npm ci --registry=https://registry.npmjs.org
+      working-directory: ${{ inputs.working-directory }}

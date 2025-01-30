@@ -1,0 +1,36 @@
+# Copyright 2024 Schneider-Electric
+name: Create new release based on branch commit comment types
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: Node.js version to use
+        required: false
+        type: number
+        default: 20
+      library-root:
+        description: The path to the library's package.json file
+        required: false
+        type: string
+        default: ${{ github.workspace }}
+jobs:
+  version:
+    runs-on: linux
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with: 
+          fetch-depth: 0
+
+      - uses: myAlias/versioning/reference-workflows/actions/npm-install@v0
+        with:
+          node-version: ${{ inputs.node-version }}
+          working-directory: ${{ inputs.library-root }}
+     
+      - uses: myAlias/versioning/reference-workflows/actions/npm-semantic-release@v0
+        with:          
+          library-root: ${{ inputs.library-root }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

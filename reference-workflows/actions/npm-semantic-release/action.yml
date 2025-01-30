@@ -1,0 +1,20 @@
+# Copyright 2024 Schneider-Electric
+name: "Semantic Release"
+description: "Update version based on commit types and create gitHub release"
+inputs:
+  library-root:
+    description: "The working directory of the library"
+    required: false
+    default: "${{ github.workspace }}"
+runs:
+  using: "composite"
+  steps:
+  - name: Install semantic-release
+    shell: bash
+    run: npm install semantic-release
+    working-directory: ${{ inputs.library-root }}
+
+  - name: Run semantic-release
+    shell: bash
+    run: npx semantic-release
+    working-directory: ${{ inputs.library-root }}
